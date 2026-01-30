@@ -44,7 +44,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-4 xl:gap-6 min-w-0 flex-shrink">
+          <div className="hidden md:flex flex-wrap items-center gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -60,7 +60,7 @@ const Navbar = () => {
             ))}
 
             {/* Theme Toggle */}
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-2 min-w-[96px] flex-shrink-0">
               <Moon className={`w-4 h-4 ${theme === "light" ? "text-muted-foreground" : "text-foreground"}`} />
               <Switch
                 checked={theme === "light"}
@@ -118,62 +118,71 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`font-display text-sm uppercase tracking-wider py-2 transition-colors ${
-                    isActive(link.path)
-                      ? "text-primary"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-
-              {/* Mobile Cart and User Actions */}
-              <div className="flex items-center justify-between py-2">
-                <CartDrawer />
-                {user ? (
-                  <div className="flex items-center gap-2">
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="md:hidden overflow-hidden"
+            >
+              <div className="py-4 border-t border-border">
+                <div className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
                     <Link
-                      to={`/profile/${user.minecraft_username}`}
+                      key={link.path}
+                      to={link.path}
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                      className={`font-display text-sm uppercase tracking-wider py-2 transition-colors ${
+                        isActive(link.path)
+                          ? "text-primary"
+                          : "text-muted-foreground"
+                      }`}
                     >
-                      <img
-                        src={getSkinUrl(user.minecraft_username)}
-                        alt={`${user.minecraft_username} skin`}
-                        className="w-6 h-6 rounded"
-                      />
-                      <span>{user.minecraft_username}</span>
+                      {link.name}
                     </Link>
-                    <Button variant="outline" size="sm" onClick={logout}>
-                      Uitloggen
-                    </Button>
-                  </div>
-                ) : (
-                  <LoginDialog>
-                    <Button variant="outline" size="sm">
-                      Inloggen
-                    </Button>
-                  </LoginDialog>
-                )}
-              </div>
+                  ))}
 
-              <Link to="/tutorial" onClick={() => setIsOpen(false)}>
-                <Button variant="hero" size="lg" className="w-full mt-2">
-                  Speel Nu
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
+                  {/* Mobile Cart and User Actions */}
+                  <div className="flex items-center justify-between py-2">
+                    <CartDrawer />
+                    {user ? (
+                      <div className="flex items-center gap-2">
+                        <Link
+                          to={`/profile/${user.minecraft_username}`}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                        >
+                          <img
+                            src={getSkinUrl(user.minecraft_username)}
+                            alt={`${user.minecraft_username} skin`}
+                            className="w-6 h-6 rounded"
+                          />
+                          <span>{user.minecraft_username}</span>
+                        </Link>
+                        <Button variant="outline" size="sm" onClick={logout}>
+                          Uitloggen
+                        </Button>
+                      </div>
+                    ) : (
+                      <LoginDialog>
+                        <Button variant="outline" size="sm">
+                          Inloggen
+                        </Button>
+                      </LoginDialog>
+                    )}
+                  </div>
+
+                  <Link to="/tutorial" onClick={() => setIsOpen(false)}>
+                    <Button variant="hero" size="lg" className="w-full mt-2">
+                      Speel Nu
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
