@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Gamepad2, ShoppingCart, Moon, Sun } from "lucide-react";
@@ -83,7 +84,12 @@ const Navbar = () => {
                   />
                   <span className="hidden xl:inline">{user.minecraft_username}</span>
                 </Link>
-                <Button variant="outline" size="sm" className="whitespace-nowrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="whitespace-nowrap"
+                  onClick={logout}
+                >
                   Uitloggen
                 </Button>
               </div>
@@ -143,6 +149,29 @@ const Navbar = () => {
                     </Link>
                   ))}
 
+                  {/* Mobile Theme Toggle */}
+                  <div className="flex items-center justify-between py-2">
+                    <span className="text-sm font-medium">Theme</span>
+                    <div className="flex items-center gap-2">
+                      <Moon
+                        className={`w-4 h-4 ${
+                          theme === "light" ? "text-muted-foreground" : "text-foreground"
+                        }`}
+                      />
+                      <Switch
+                        checked={theme === "light"}
+                        onCheckedChange={(checked) =>
+                          setTheme(checked ? "light" : "dark")
+                        }
+                      />
+                      <Sun
+                        className={`w-4 h-4 ${
+                          theme === "light" ? "text-foreground" : "text-muted-foreground"
+                        }`}
+                      />
+                    </div>
+                  </div>
+
                   {/* Mobile Cart and User Actions */}
                   <div className="flex items-center justify-between py-2">
                     <CartDrawer />
@@ -160,7 +189,14 @@ const Navbar = () => {
                           />
                           <span>{user.minecraft_username}</span>
                         </Link>
-                        <Button variant="outline" size="sm" onClick={logout}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            logout();
+                            setIsOpen(false);
+                          }}
+                        >
                           Uitloggen
                         </Button>
                       </div>
