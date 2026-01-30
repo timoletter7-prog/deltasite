@@ -44,7 +44,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -60,36 +60,37 @@ const Navbar = () => {
             ))}
 
             {/* Theme Toggle */}
-            <div className="flex items-center gap-2">
-              <Moon className={`w-4 h-4 ${theme === "light" ? "text-muted-foreground" : "text-foreground"}`} />
+            <div className="flex items-center gap-1 lg:gap-2">
+              <Moon className={`w-3 h-3 lg:w-4 lg:h-4 ${theme === "light" ? "text-muted-foreground" : "text-foreground"}`} />
               <Switch
                 checked={theme === "light"}
                 onCheckedChange={(checked) => setTheme(checked ? "light" : "dark")}
+                className="scale-75 lg:scale-100"
               />
-              <Sun className={`w-4 h-4 ${theme === "light" ? "text-foreground" : "text-muted-foreground"}`} />
+              <Sun className={`w-3 h-3 lg:w-4 lg:h-4 ${theme === "light" ? "text-foreground" : "text-muted-foreground"}`} />
             </div>
 
             {/* User Profile / Login */}
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 lg:gap-3">
                 <Link
                   to={`/profile/${user.minecraft_username}`}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="flex items-center gap-2 px-2 lg:px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                 >
                   <img
                     src={getSkinUrl(user.minecraft_username)}
                     alt={`${user.minecraft_username} skin`}
                     className="w-6 h-6 rounded"
                   />
-                  <span className="hidden sm:inline">{user.minecraft_username}</span>
+                  <span className="hidden lg:inline">{user.minecraft_username}</span>
                 </Link>
-                <Button variant="outline" size="sm" onClick={logout}>
+                <Button variant="outline" size="sm" className="text-xs lg:text-sm">
                   Uitloggen
                 </Button>
               </div>
             ) : (
               <LoginDialog>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="text-xs lg:text-sm">
                   Inloggen
                 </Button>
               </LoginDialog>
@@ -97,7 +98,7 @@ const Navbar = () => {
 
             <CartDrawer />
             <Link to="/tutorial">
-              <Button variant="hero" size="lg">
+              <Button variant="hero" size="lg" className="text-xs lg:text-sm">
                 Speel Nu
               </Button>
             </Link>
